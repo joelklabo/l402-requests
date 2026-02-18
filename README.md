@@ -33,7 +33,7 @@ Set environment variables for your preferred wallet. The library auto-detects in
 | 3 | Strike | `STRIKE_API_KEY` | Yes |
 | 4 | OpenNode | `OPENNODE_API_KEY` | Limited |
 
-**Recommended:** Strike (0% fee, full preimage support, no infrastructure required).
+**Recommended:** Strike (full preimage support, no infrastructure required).
 
 ### Strike (Recommended)
 
@@ -160,6 +160,34 @@ print(f"Paid {record.amount_sats} sats, preimage: {record.preimage}")
 ```
 
 See the [full documentation](https://docs.lightningenable.com/tools/l402-requests) for the complete store purchasing example.
+
+## Usage with AI Agents
+
+L402-Requests is the consumer-side complement to the [Lightning Enable MCP Server](https://github.com/refined-element/lightning-enable-mcp). While the MCP server gives AI agents wallet tools, L402-Requests lets your Python code access paid APIs without any agent framework.
+
+### LangChain Tool
+
+```python
+from langchain.tools import tool
+from l402_requests import L402Client, BudgetController
+
+_client = L402Client(budget=BudgetController(max_sats_per_request=100))
+
+@tool
+def fetch_paid_api(url: str) -> str:
+    """Fetch data from an L402-protected API. Payment is handled automatically."""
+    response = _client.get(url)
+    return response.text
+```
+
+### Standalone Script
+
+```python
+import l402_requests
+
+# Any L402-protected API just works
+data = l402_requests.get("https://api.example.com/premium-data").json()
+```
 
 ## What is L402?
 

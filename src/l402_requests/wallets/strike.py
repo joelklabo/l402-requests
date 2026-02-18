@@ -13,7 +13,7 @@ class StrikeWallet(WalletBase):
 
     Requires: STRIKE_API_KEY environment variable.
 
-    Strike provides preimage support and charges no additional fees,
+    Strike provides full preimage support and requires no infrastructure,
     making it an excellent choice for L402 payments.
     """
 
